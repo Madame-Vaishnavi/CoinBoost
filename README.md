@@ -60,6 +60,3 @@ lib/
 ## Contributing
 Feel free to contribute by submitting a pull request.
 
-## License
-This project is licensed under the MIT License.
-
