@@ -69,6 +69,7 @@ class _OnboardingState extends State<Onboarding> {
                     height: 48,
                     child: TextField(
                       controller: _controller,
+                      keyboardType: TextInputType.number,
                       textAlign: TextAlign.center,
                       decoration: InputDecoration(
                         border: InputBorder.none,

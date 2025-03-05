@@ -5,6 +5,7 @@ import 'package:internship/profile.dart';
 import 'package:internship/rewards.dart';
 import 'home.dart';
 
+
 class BottomNav extends StatefulWidget {
   const BottomNav({super.key});
 
@@ -15,22 +16,25 @@ class BottomNav extends StatefulWidget {
 class _BottomNavState extends State<BottomNav> {
   int _selectedIndex = 0;
 
-  final List<Widget> _screens = [
-    HomePage(),
-    RewardsPage(),
-    ProfilePage(),
-  ];
+  // Define routes that will be displayed within the bottom nav
+  final Map<int, Widget> _screens = {
+    0: HomePage(),
+    1: RewardPage(),
+    2: ProfilePage(),
+  };
+
+  Widget _currentScreen = HomePage(); // Default screen
 
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
+      _currentScreen = _screens[index]!;
     });
   }
 
   @override
   void initState() {
     super.initState();
-
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
       statusBarColor: Colors.orange,
@@ -42,51 +46,30 @@ class _BottomNavState extends State<BottomNav> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: Colors.white,
-        body: IndexedStack(
-          index: _selectedIndex,
-          children: _screens,
-        ),
-
-        bottomNavigationBar: Container(
-          height: 65, // Reduced height for bottom navigation bar
-          decoration: BoxDecoration(
-            color: Colors.orange,
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: _currentScreen,
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _selectedIndex,
+        onTap: _onItemTapped,
+        selectedItemColor: Colors.white,
+        unselectedItemColor: Colors.white,
+        backgroundColor: Colors.orange,
+        type: BottomNavigationBarType.fixed,
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home, size: 30),
+            label: "",
           ),
-          child: BottomNavigationBar(
-            currentIndex: _selectedIndex,
-            onTap: _onItemTapped,
-            selectedItemColor: Colors.white,
-            unselectedItemColor: Colors.white,
-            backgroundColor: Colors.orange,
-            type: BottomNavigationBarType.fixed,
-            items: const [
-              BottomNavigationBarItem(
-                icon: Padding(
-                  padding: EdgeInsets.only(bottom: 0), // Adjust spacing
-                  child: Icon(Icons.home, size: 30), // Reduced icon size
-                ),
-                label: "",
-              ),
-              BottomNavigationBarItem(
-                icon: Padding(
-                  padding: EdgeInsets.only(bottom: 0),
-                  child: Icon(CupertinoIcons.layers_alt_fill, size: 30),
-                ),
-                label: "",
-              ),
-              BottomNavigationBarItem(
-                icon: Padding(
-                  padding: EdgeInsets.only(bottom: 0),
-                  child: Icon(Icons.person, size: 30),
-                ),
-                label: "",
-              ),
-            ],
+          BottomNavigationBarItem(
+            icon: Icon(CupertinoIcons.layers_alt_fill, size: 30),
+            label: "",
           ),
-        ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person, size: 30),
+            label: "",
+          ),
+        ],
       ),
     );
   }
